@@ -1,0 +1,77 @@
+﻿@using MyEvernote.Entities.ValueObjects
+@model RegisterViewModel
+@{
+    ViewBag.Title = "MyEvernote - Kayıt Sayfası";
+}
+ 
+<link href="~/Content/login-register.css" rel="stylesheet" />
+<link href="~/Content/validation-summary.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="container">
+        <br /><br />
+        <div class="row">
+            <div class="main">
+                <h3>Kayıt Formu</h3>
+
+                <div class="login-or">
+                    <hr class="hr-or">
+                    <span class="span-or"> Giriniz </span>
+                </div>
+
+                @*
+                    @using (Html.BeginForm())
+                    { }
+
+                    Form etiketi yerine üsttekide kullanılabilir Yani button submit oldugu zaman
+
+                    <form role="form" method="post"> </form>
+
+                *@
+                <form role="form" method="post">
+
+
+                    @Html.ValidationSummary(false)
+                    <div class="form-group">
+                        <label for="inputUsernameEmail">Ad</label>
+                        @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Adı." })
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUsernameEmail">Soyad</label>
+                        @Html.TextBoxFor(model => model.Surname, new { @class = "form-control", placeholder = "Soyadı." })
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUsernameEmail">Kullanıcı Adı</label>
+                        @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanıcı Adı." })
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">E-posta</label>
+                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-posta.", type = "text" })
+
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Şifre</label>
+                        @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Şifre.", type = "password" })
+
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Şifre(Tekrar)</label>
+                        @Html.TextBoxFor(model => model.RePassword, new { @class = "form-control", placeholder = "Şifre.", type = "password" })
+
+                    </div>
+
+                    <button type="submit" class="btn btn btn-primary btn-lg btn-block login-button">
+                        Kayıt
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+}
+ 

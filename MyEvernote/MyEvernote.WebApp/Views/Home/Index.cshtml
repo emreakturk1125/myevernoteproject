@@ -1,0 +1,155 @@
+﻿@using MyEvernote.WebApp.Helper
+@using MyEvernote.Entities
+@model List<Note>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<link href="~/Content/slider.css" rel="stylesheet" />
+<script src="~/Scripts/slider.js"></script>  
+<script src="~/Scripts/sweetalert2.all.min.js"></script>
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!--Kategori-->
+            @Html.Partial("_PartialCategories")
+            
+        </div>
+        <div class="col-md-9">
+            <!--Carousel-->
+
+            <div class="row carousel-holder">
+                <div class="col-md-12">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        </ol>
+                        <div style="border-radius: 25px" class="carousel-inner">
+                            <div class="item active">
+                                @*<img style="width:847.5px;height:445px" class="slide-image" src="https://iasbh.tmgrup.com.tr/1534b0/752/395/0/5/585/312?u=https://isbh.tmgrup.com.tr/sbh/2018/06/30/gida-guvenligine-yerli-yazilim-1530390215245.jpeg" alt="">*@
+                                <img style="width:847.5px;height:445px" class="slide-image" src="~/Images/bilisim1.jpeg" alt="Bilişim Teknolojileri hakkında makaleler">
+                            </div>
+
+                            <div class="item">
+                                @*<img style="width:847.5px;height:445px" class="slide-image" src="https://img-s2.onedio.com/id-59a9b0be8ce55d12405734d1/rev-0/w-635/listing/f-jpg-webp/s-fd302ff02514c973fa119e07b589bd047fe74f9b.webp" alt="">*@
+                                <img style="width:847.5px;height:445px" class="slide-image" src="~/Images/dunya.jpg" alt="Dünyadan Makaleler">
+                            </div>
+                            <div class="item">
+                                <img style="width:847.5px;height:445px" class="slide-image" src="https://userscontent2.emaze.com/images/14c1bdd4-c09a-4d09-a806-97a07fc45ac1/ef0e8a87f3f9cbee3aa30f17b70e607d.jpg" alt="Tarih Makaleleri">
+                                @*<img style="width:847.5px;height:445px" class="slide-image" src="~/Images/tarih.jpg" alt="">*@
+                            </div>
+
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!--Notlar-->
+            <div class="row">
+
+                @foreach (Note note in Model)
+                {
+                    <div class="col-sm-4 col-lg-4 col-md-4" data-note-id="@note.Id">
+                        <div class="thumbnail">
+                            <img style="height:120px" src="~/Images/@note.Category.Photo" alt="@note.Title">
+                            <div class="caption" style="border-radius : 20px">
+
+                                <h4>
+                                    @*<a href="#" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id">@note.Title</a>*@
+                                    <a href="/Note/DetailNote/@note.Id">@note.Title</a>
+                                </h4>
+
+                                @if (string.IsNullOrEmpty(note.Description) == false && note.Description.Length > 60)
+                                {
+                                    <p> @(note.Description.Substring(0, 60) + "..."); <a href="/Note/DetailNote/@note.Id"> devamı için tıklayınız.</a></p>
+
+                                    @*<p class="pull-right"><a href="#" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id" class="btn btn-default btn-sm">devamı<span class="glyphicon glyphicon-chevron-right"></span></a></p>*@
+
+                                }
+                                else
+                                {
+                                    <p> @note.Description;</p>
+                                    <br /><br />
+                                }
+
+                                <h6 class="text-right">
+                                    @note.Owner.Username <span class="glyphicon glyphicon-user"></span><br />
+                                    @note.ModifieOn.ToString("dd.MM.yy HH:mm") <span class="glyphicon glyphicon-time"></span>
+                                </h6>
+                            </div>
+                            <div>
+                                <hr />
+                            </div>
+
+                            <div class="ratings">
+                                <p class="pull-right">
+                                    @if (CurrentSession.User == null)
+                                    {
+                                        <button style="color:white" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_comment" data-note-id="@note.Id" title="Yorumlar için tıklayın" onclick="swal({ type: 'error', title: 'Lütfen Giriş Yapınız', text: 'Yorum yapabilmek için üye olmak zorundasınız.Aksi halde sadece yorumları görebilirsiniz.'})">
+                                            <span style="color:white" class="glyphicon glyphicon-comment"></span> Yorumlar
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button style="color:white" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal_comment" data-note-id="@note.Id" title="Yorumlar için tıklayın" >
+                                            <span style="color:white" class="glyphicon glyphicon-comment"></span> Yorumlar
+                                        </button>
+                                    }
+                                </p>
+                                <p>
+                                    @if (CurrentSession.User == null)
+                                    {
+
+                                        <button style="color:white" class="btn btn-primary btn-sm" type="button" data-liked="false" data-note-id="@note.Id" title="Beğeni için tıklayın" onclick="swal({ type: 'error', title: 'Lütfen Giriş Yapınız', text: 'Begeni işlemi için üye olmak zorundasınız'})">
+                                            <span style="color:white" class="glyphicon glyphicon-star-empty like-star"></span>&nbsp;
+                                            <span class="like-count">@note.LikeCount</span>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button style="color:white" class="btn btn-primary btn-sm" type="button" data-liked="false" data-note-id="@note.Id" title="Beğeni için tıklayın" >
+                                            <span style="color:white" class="glyphicon glyphicon-star-empty like-star"></span>&nbsp;
+                                            <span class="like-count">@note.LikeCount</span>
+                                        </button>
+                                    }
+
+
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section footer{
+
+    @Html.Partial("_PartialFooter");
+}
+
+
+
+@Bootstrap.ModalPopup(id: "modal_comment", title: "Yorumlar");
+@Bootstrap.ModalPopup(id: "modal_notedetail", title: "Not Detayı");
+
+<script src="~/Scripts/comment.js"></script>
+
+<script src="~/Scripts/like.js"></script>
+
+<script src="~/Scripts/NoteDetailPopup.js"></script>

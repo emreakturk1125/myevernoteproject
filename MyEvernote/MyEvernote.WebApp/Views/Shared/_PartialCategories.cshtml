@@ -1,0 +1,33 @@
+﻿@using MyEvernote.BusinessLayer
+@using MyEvernote.Entities
+@using MyEvernote.WebApp.Helper
+@{
+    List<Category> list = CacheHelper.GetCategoriesFromCache();
+}
+
+<script src="~/Scripts/profile.js"></script>
+
+<p class="lead"><b>Kategoriler</b></p>
+
+<div class="list-group">
+    <a href="@Url.Action("Index","Home")" class="list-group-item"><span class="glyphicon glyphicon-align-justify"></span> <strong>Tümü</strong></a>
+
+    @foreach (Category cat in list)
+    {
+        <a href="/Home/ByCategory/@cat.Id" title="@cat.Description" class="list-group-item"><span class="glyphicon glyphicon-circle-arrow-right"></span> @cat.Title</a>
+    }
+
+</div>
+
+<hr />
+
+<p class="lead"><b>Linkedin Profil</b></p>
+<div class="list-group">
+    <div class="LI-profile-badge" data-version="v1" data-size="medium" data-locale="tr_TR" data-type="vertical" data-theme="light" data-vanity="emre-aktürk-2b578489"><a class="LI-simple-link" href='https://www.linkedin.com/in/emre-akt%C3%BCrk-2b578489/'>EMRE AKTÜRK</a></div>
+</div>
+<hr />
+<p class="lead"><b>Günün Sözü</b></p>
+<script language="javascript" src="http://ic.sitekodlari.com/gununsozu1.js"></script>
+<hr />
+ 
+

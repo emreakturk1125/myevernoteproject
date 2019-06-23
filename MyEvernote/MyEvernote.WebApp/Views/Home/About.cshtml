@@ -1,0 +1,159 @@
+﻿@model MyEvernote.Entities.ValueObjects.MailModel2
+@{
+    ViewBag.Title = "About";
+}
+
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/sweetalert2.all.min.js"></script>
+ 
+<style>
+
+    #wrapper {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        background: rgba(0,0,0,.5)
+    }
+
+    #message-sent {
+        width: 340px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -30px;
+        margin-left: -170px;
+        font-weight: 600;
+        border-radius: 0 6px;
+        color: #191970;
+        background: white;
+        box-shadow: 0 0 20px 4px #0d6636;
+    }
+
+    #close-button {
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        text-align: center;
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: white;
+        border-radius: 0 8px;
+        border: 1px solid #0d6636;
+        cursor: pointer;
+        font-weight: 600;
+    }
+</style>
+
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <!--Kategori-->
+            @Html.Partial("_PartialCategories")
+        </div>
+        <div class="col-md-7 col-md-offset-1">
+
+            <!--Notlar-->
+            <div class="row">
+
+                <h2 class="text-center">
+                    Hakkımda
+                </h2>
+                <hr />
+                <img style="width:500px;height:300px;" src="~/Images/emre.JPG" class="center-block img-responsive img-rounded img-thumbnail" />
+                <hr />
+                <p>
+                    Ben Kimim? Öncelikle websiteme hoşgeldiniz. Ben Emre Aktürk 1992 Bilecik doğumluyum aslen Erzurumluyum. Eğitim hayatım lise dönemi Bilecikte, Üniversite dönemi ise Kütahyada geçti.Ayrıca üniversite zamanı erasmus deneyimim oldu. Yaklaşık 6 ay Polonyanın opole şehrinde, Politechnika Opolska üniversitesinde erasmus öğrencisi olarak bulundum.Benim için güzel bir deneyimdi. Okul hayatından sonra direk askere gittim. Yedek Subay olarak (Asteğmen) Ankara'nın mamak ilçesinde, Muharebe Elektronik Bilgisayar Sistemleri (MEBS) okulunda, nisan 2017'de Bilgi Sistem Yöneticisi olarak görevimi tamamladım. Askerlik bittikten sonra ise iş hayatına atıldım ve istanbuldayım.<hr />
+                    <b style="color:red">Aşağıdaki kısımdan görüş ve önerilerinizi gönderebilirsiniz.</b>
+
+                </p>
+
+                <hr />
+
+                @using (Html.BeginForm())
+                {
+                    if (ViewBag.Success != null && ViewBag.Success)
+                    {
+                        <div id="wrapper">
+                                <div id="message-sent">
+                                    <div id="close-button">
+                                        <span>X</span>
+                                    </div>
+                                    <span>Mesajınız başarıyla gönderilmiştir.</span>
+                                </div>
+                            </div>
+                       
+                        
+                       
+                    }
+
+                    <form role="form" method="post">
+
+                        <div class="form-group">
+
+                            <label>Ad Soyad</label>
+
+                            <div>
+                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Ad Soyad", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label>Email</label>
+
+                            <div>
+                                @Html.TextBoxFor(model => model.Mail, new { @class = "form-control", placeholder = "Email", required = "required" })
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <label>İleti</label>
+                            <div>
+                                @Html.TextAreaFor(model => model.Text, new { @class = "form-control", style = "height:150px", placeholder = "İleti..", required = "required" })
+                            </div>
+                        </div>
+                        <div align="right">
+
+                            <button type="submit" class="btn btn-primary">
+                                <span>Gönder</span>
+                            </button>
+
+                        </div>
+                    </form>
+                }
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+@section footer{
+
+    @Html.Partial("_PartialFooter");
+}
+
+<script>
+
+    $('#wrapper').click(function () {
+        $(this).fadeOut('slow');
+    });
+
+</script>
+

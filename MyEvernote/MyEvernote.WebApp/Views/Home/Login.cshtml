@@ -1,0 +1,72 @@
+﻿@using MyEvernote.Entities.ValueObjects
+@model LoginViewModel
+@{
+    ViewBag.Title = "MyEvernote - Giriş Sayfası";
+}
+
+<link href="~/Content/login-register.css" rel="stylesheet" />
+<link href="~/Content/validation-summary.css" rel="stylesheet" />
+
+
+<div class="container">
+    <br /><br />
+    <div class="row">
+        <div class="main">
+            <h3>Giriş Yapınız</a></h3>
+       
+
+            @*
+        @using (Html.BeginForm())
+        { }
+
+        Form etiketi yerine üsttekide kullanılabilir Yani button submit oldugu zaman
+
+        <form role="form" method="post"> </form>
+
+            *@
+
+            <form role="form" method="post">
+                @Html.ValidationSummary(false)
+                @if (ViewBag.SetLink != null)
+                {
+                    <a href="@ViewBag.SetLink" class="btn btn-primary">Activate</a>
+                }
+                <div class="form-group">
+                    <label for="inputUsernameEmail">Kullanıcı Adı</label>
+                    @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanıcı Adınız." })
+                </div>
+                <div class="form-group">
+
+                    <label for="inputPassword">Şifre</label>
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Şifreniz.", type = "password" })
+
+                </div>
+
+                @using (Html.BeginForm("Post", "Home", FormMethod.Post))
+                {
+                    <!--Kendi Site keyinizle değiştirin.-->
+                    @*<div class="g-recaptcha" data-sitekey="6LcjInAUAAAAALjxuPvY6732msgj6Z1zfxENd9vD"></div>
+
+                    <span style="color:red">@TempData["Message"]</span>*@
+                    <br />
+                    <button type="submit" style="width:100px" class="btn btn btn-primary">
+                        Giriş
+                    </button>
+                    <div class="checkbox pull-right">
+                        <label>
+                            <a class="pull-right" href="/Home/PasswordForget">Şifremi Unuttum!</a>
+                        </label>
+                    </div>
+                  
+
+                }
+
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+ 

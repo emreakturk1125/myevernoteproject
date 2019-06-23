@@ -1,0 +1,148 @@
+﻿
+@using MyEvernote.Entities
+@model EvernoteUser
+@{
+    ViewBag.Title = "Profil Düzenle";
+}
+
+<link href="~/Content/validation-summary.css" rel="stylesheet" />
+
+<link href="~/Content/BoostrapValidation/css/bootstrapValidator.min.css" rel="stylesheet" />
+    <script src="~/Content/BoostrapValidation/jquery.mask.min.js"></script>
+    <script src="~/Content/BoostrapValidation/js/bootstrapValidator.min.js"></script>
+ 
+
+
+
+
+<div class="container">
+
+    <div class="row">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+    </div>
+    <!--Uploading işlemi için new { enctype = "multipart/form-data" } olması gerekiyor -->
+    <div class="row">
+        @using (Html.BeginForm("EditProfile", "Home", FormMethod.Post, new { id = "frmMemberCreate", enctype = "multipart/form-data", data_toggle = "validator" }))
+        {
+            <div class="form-horizontal">
+
+                <div class="col-md-2">
+                    &nbsp;
+                </div>
+
+                <div class="col-md-3">
+                    <img src="~/Images/@Model.ProfileImageFileName" class="img-circle" width="128" height="128" />
+                    @Html.HiddenFor(model => model.ProfileImageFileName)
+                    <br /><br />
+                    <input type="file" name="ProfileImage" id="ProfileImage" class="form-control" /><br />
+                    <span class="glyphicon glyphicon-info-sign">&nbsp;</span>
+                    <span><i>Lütfen jpg, jpeg ya da png formatı kullanın.</i></span>
+                </div>
+
+                <div class="col-md-5">
+
+                    @Html.ValidationSummary(false)
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Password)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Yeni Şifre</label>
+                        <div class="col-md-9">
+                            <input id="txtNewPass" class="form-control" type="password" name="txtNewPass" placeholder="Yeni şifre girmediğiniz takdirde eskisi geçerli.." />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Yeni Şifre(Tekrar)</label>
+                        <div class="col-md-9">
+                            <input id="txtNewRePass" class="form-control" type="password" name="txtNewRePass" placeholder="Yeni şifre girmediğiniz takdirde eskisi geçerli.." /> 
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <input id="btnKaydet" type="submit" value="Kaydet" class="btn btn-success" />
+                            @Html.ActionLink("İptal", "ShowProfile", "Home", null, new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+                    &nbsp;
+                </div>
+
+            </div>
+        }
+    </div>
+
+</div>
+  
+
+<script>
+
+
+        $(document).ready(function () {
+
+            $('#frmMemberCreate').bootstrapValidator({
+                feedbackIcons: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+
+                    txtNewRePass: {
+                        validators: {
+
+                            identical: {
+                                field: 'txtNewPass',
+                                message: 'Şifreler Uyuşmuyor.'
+                            }
+                        }
+                    },
+                    txtNewPass: {
+                        validators: {
+
+                            identical: {
+                                field: 'txtNewRePass',
+                                message: 'Yeni Şifre(Tekrar) kısmınıda giriniz.'
+                            }
+                        }
+                    }
+
+                }
+            });
+
+
+        });
+    </script>
