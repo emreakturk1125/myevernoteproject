@@ -1,0 +1,164 @@
+USE [MyEvernoteDB]
+GO
+/****** Object:  Table [dbo].[__MigrationHistory]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[__MigrationHistory](
+	[MigrationId] [nvarchar](150) NOT NULL,
+	[ContextKey] [nvarchar](300) NOT NULL,
+	[Model] [varbinary](max) NOT NULL,
+	[ProductVersion] [nvarchar](32) NOT NULL,
+ CONSTRAINT [PK_dbo.__MigrationHistory] PRIMARY KEY CLUSTERED 
+(
+	[MigrationId] ASC,
+	[ContextKey] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](50) NOT NULL,
+	[Description] [nvarchar](150) NULL,
+	[Photo] [nvarchar](50) NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[ModifieOn] [datetime] NOT NULL,
+	[ModifiedUsername] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_dbo.Categories] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Comments]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Comments](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Text] [nvarchar](300) NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[ModifieOn] [datetime] NOT NULL,
+	[ModifiedUsername] [nvarchar](30) NOT NULL,
+	[Owner_Id] [int] NULL,
+	[Note_Id] [int] NOT NULL,
+ CONSTRAINT [PK_dbo.Comments] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[EvernoteUsers]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[EvernoteUsers](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](25) NULL,
+	[Surname] [nvarchar](25) NULL,
+	[Username] [nvarchar](25) NOT NULL,
+	[Email] [nvarchar](70) NOT NULL,
+	[Password] [nvarchar](250) NOT NULL,
+	[ProfileImageFileName] [nvarchar](30) NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDelete] [bit] NOT NULL,
+	[ActiveGuid] [uniqueidentifier] NOT NULL,
+	[IsAdmin] [bit] NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[ModifieOn] [datetime] NOT NULL,
+	[ModifiedUsername] [nvarchar](30) NOT NULL,
+ CONSTRAINT [PK_dbo.EvernoteUsers] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Likes]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Likes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[LikedUser_Id] [int] NULL,
+	[Note_Id] [int] NOT NULL,
+ CONSTRAINT [PK_dbo.Likes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[Notes]    Script Date: 25.6.2019 21:02:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Notes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](100) NOT NULL,
+	[Text] [nvarchar](max) NOT NULL,
+	[Description] [nvarchar](max) NULL,
+	[IsDraft] [bit] NOT NULL,
+	[LikeCount] [int] NOT NULL,
+	[CategoryId] [int] NOT NULL,
+	[CreatedOn] [datetime] NOT NULL,
+	[ModifieOn] [datetime] NOT NULL,
+	[ModifiedUsername] [nvarchar](30) NOT NULL,
+	[Owner_Id] [int] NULL,
+ CONSTRAINT [PK_dbo.Notes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Comments_dbo.EvernoteUsers_Owner_Id] FOREIGN KEY([Owner_Id])
+REFERENCES [dbo].[EvernoteUsers] ([Id])
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_dbo.Comments_dbo.EvernoteUsers_Owner_Id]
+GO
+ALTER TABLE [dbo].[Comments]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Comments_dbo.Notes_Note_Id] FOREIGN KEY([Note_Id])
+REFERENCES [dbo].[Notes] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Comments] CHECK CONSTRAINT [FK_dbo.Comments_dbo.Notes_Note_Id]
+GO
+ALTER TABLE [dbo].[Likes]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Likes_dbo.EvernoteUsers_LikedUser_Id] FOREIGN KEY([LikedUser_Id])
+REFERENCES [dbo].[EvernoteUsers] ([Id])
+GO
+ALTER TABLE [dbo].[Likes] CHECK CONSTRAINT [FK_dbo.Likes_dbo.EvernoteUsers_LikedUser_Id]
+GO
+ALTER TABLE [dbo].[Likes]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Likes_dbo.Notes_Note_Id] FOREIGN KEY([Note_Id])
+REFERENCES [dbo].[Notes] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Likes] CHECK CONSTRAINT [FK_dbo.Likes_dbo.Notes_Note_Id]
+GO
+ALTER TABLE [dbo].[Notes]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Notes_dbo.Categories_CategoryId] FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Categories] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Notes] CHECK CONSTRAINT [FK_dbo.Notes_dbo.Categories_CategoryId]
+GO
+ALTER TABLE [dbo].[Notes]  WITH CHECK ADD  CONSTRAINT [FK_dbo.Notes_dbo.EvernoteUsers_Owner_Id] FOREIGN KEY([Owner_Id])
+REFERENCES [dbo].[EvernoteUsers] ([Id])
+GO
+ALTER TABLE [dbo].[Notes] CHECK CONSTRAINT [FK_dbo.Notes_dbo.EvernoteUsers_Owner_Id]
+GO
