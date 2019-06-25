@@ -20,3 +20,7 @@ Kaynak
 --------------------------
 UDEMY EĞİTİMLERİ (ÜZERİNDE AYRICA GELİŞTİRMELER YAPILMIŞTIR)
 
+Database
+-------------------------
+database.txt dosyası içinde veritabanı scripti mevcuttur
+
