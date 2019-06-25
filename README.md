@@ -11,10 +11,10 @@ Proje hakkında
 Kullanılan teknolojiler
 --------------------------
 
--> ASP.NET MVC
+-> ASP.NET MVC \n
 -> MS SQL SERVER
 -> ENTITY FRAMEWORK
--> kATMANLI MİMARİ
+-> KATMANLI MİMARİ
 
 Kaynak
 --------------------------
