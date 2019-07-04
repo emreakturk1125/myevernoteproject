@@ -8,7 +8,7 @@ Proje hakkında
 
 -> Üyelik sistemi vardır ve üye olan paylaşım yapabilir
 
--> Her yazını altında beğeni ve yorum yapma butonları mevcuttur, isteyen beğenebilir ve yorum yapabilir
+-> Her yazının altında beğeni ve yorum yapma butonları mevcuttur, isteyen beğenebilir ve yorum yapabilir
 
 -> Admin Paneli mevcuttur
 
@@ -21,7 +21,7 @@ Kullanılan teknolojiler
 
 -> ENTITY FRAMEWORK
 
--> KATMANLI MİMARİ
+-> N-Tier Architecture
 
 Kaynak
 --------------------------
